@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Prise de Rdv - Mey's Ongles{% endblock %}
+
+{% block content %}
+<h1>Prise de rendez-vous</h1>
+	{% if notification %}
+		<div class="alert alert-info">
+			{{notification}}
+            <hr>
+		</div>
+	{% endif %}
+
+	Formulaire prise de rendez-vous
+	{{ form(form)}}
+	<div id="$myContainerId">dddd</div>
+
+{% endblock %}
+{% block script %}
+<script type="text/javascript">
+    var container = document.getElementById('$myContainerId');
+    window.planity = {
+        key: '$apiKey',
+        primaryColor: '$primaryColor',
+        // choisissez une des options ci-dessous
+        container: container,
+        accountContainer: container,
+        appointmentContainer: container,
+        giftVoucherContainer: container,
+        onlineShopContainer: container
+    };
+</script>
+<script src="https://d2skjte8udjqxw.cloudfront.net/widget/production/polyfills.latest.js"></script>
+<script src="https://d2skjte8udjqxw.cloudfront.net/widget/production/app.latest.js"></script>
+
+{% endblock %}

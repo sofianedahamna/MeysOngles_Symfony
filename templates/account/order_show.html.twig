@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ma commande - Mey's Ongles{% endblock %}
+
+
+
+{% block content %}
+	<h1>Ma commande {{ order.reference }}</h1>
+    <a href="{{ path ('app_account_order')}}">retour</a>
+    <hr> 
+    <strong>Commande passée le:  {{ order.createdAt|date('d/m/Y')}}</strong> <br>
+    <strong>Référence de ma commande:<small>{{ order.reference}}</small></strong>  <br>
+    <strong>Transporteur de ma commande:{{order.carrierName}}</strong>
+   
+    
+    
+    <hr>
+    <strong>Détails:</strong> 
+
+
+		<table class="table mt-4">
+			<thead>
+				<tr>
+					<th scope="col">Produit</th>
+					<th scope="col">Quantiter</th>
+					<th scope="col">Prix unitaire</th>
+					<th scope="col">Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in order.orderDetails %}
+					<tr> 
+                        <td> {{ product.product}}</td>
+						<td> x{{ product.quantity }}</td>
+						<td>{{ order.orderDetails|length }}</td>
+                        <td> {{ ((product.total) / 100)|number_format(2 , ',','.')}} € </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+        <div class="text-right">
+        <strong>Sous-total : </strong>{{ ((order.getTotal) / 100)|number_format(2 , ',','.')}} € <br>
+        <strong>Livraison : </strong>{{ ((order.carrierPrice) / 100)|number_format(2 , ',','.')}} €<br>
+        <strong>Total : </strong> {{ ((order.carrierPrice + order.getTotal) / 100)|number_format(2 , ',','.')}} €<br>
+        </div>
+
+	
+
+
+{% endblock %}
+

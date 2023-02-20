@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos prestations - Mey's Ongles{% endblock %}
+
+
+
+{% block content %}
+    <strong>Nos prestations:</strong> 
+
+
+		<table class="table mt-4">
+			<thead>
+				<tr>
+					<th scope="col">Libelle</th>
+					<th scope="col">Description</th>
+					<th scope="col">Duree</th>
+					<th scope="col">Prix</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for prestation in prestation %}
+					<tr> 
+                        <td> {{ prestation.libelle}}</td>
+						<td> {{  prestation.description }}</td>
+						<td>{{  prestation.duree|date('h:i') }} h</td>
+                        <td> {{ (( prestation.prix) / 100)|number_format(2 , ',','.')}} € </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+	
+
+
+{% endblock %}
+

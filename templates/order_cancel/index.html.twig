@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de commande - Mey's Ongles{% endblock %}
+
+{% block content %}
+<h2>Erreur de paiement</h2>
+	<p>
+        bonjour <strong>{{order.user.firstname}} {{order.user.lastname}}</strong>, <br>
+        Il semblerait que votre paiement est échoué pour votre commande  n°<strong>{{order.reference}}</strong>.<br>
+        Une confirmation d'érreur vient de vous etre envoyé par email à l'adresse <strong>{{order.user.email}}</strong>
+    </p>
+    <a href="{{ path ('app_order')}}" class="btn btn-success">Réessayer le paiement</a>
+{% endblock %}
