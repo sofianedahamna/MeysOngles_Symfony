@@ -3,8 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Product;
+use App\Entity\ProductOption;
+use Doctrine\Common\Collections\ArrayCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
@@ -25,15 +29,17 @@ class ProductCrudController extends AbstractCrudController
         return [
            TextField::new('name'),
            ImageField::new('illustration')
-           ->setBasePath('assets/uploads/images')
-           ->setUploadDir('assets/uploads/images')
+           ->setBasePath('assets\uploads\images')
+           ->setUploadDir('public\assets\uploads\images')
            ->setUploadedFileNamePattern('[randomhash].[extension]')
            ->setRequired(false),
            SlugField::new('slug')->setTargetFieldName('name'),
            TextField::new('subtitle'),
            TextareaField::new('description'),
+           BooleanField::new('isBest'),
            MoneyField::new('price')->setCurrency('EUR'),
-           AssociationField::new('category')
+           AssociationField::new('category'),
+           AssociationField::new('productOptions','taille et forme')->hideOnForm(),
         ];
     }
     

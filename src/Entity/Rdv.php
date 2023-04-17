@@ -120,4 +120,13 @@ class Rdv
 
         return $this;
     }
+
+	/**
+	 * @param int|null $id 
+	 * @return self
+	 */
+	public function setId(?int $id): self {
+		$this->id = $id;
+		return $this;
+	}
 }

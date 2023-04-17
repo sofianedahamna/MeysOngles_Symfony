@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,6 +37,17 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
+
+    #[ORM\Column]
+    private ?bool $isBest = null;
+
+    #[ORM\ManyToMany(targetEntity: ProductOption::class, mappedBy: 'product')]
+    private Collection $productOptions;
+
+    public function __construct()
+    {
+        $this->productOptions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -124,4 +137,64 @@ class Product
 
         return $this;
     }
+
+    public function isIsBest(): ?bool
+    {
+        return $this->isBest;
+    }
+
+    public function setIsBest(bool $isBest): self
+    {
+        $this->isBest = $isBest;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductOption>
+     */
+    public function getProductOptions(): Collection
+    {
+        return $this->productOptions;
+    }
+
+    public function addProductOption(ProductOption $productOption): self
+    {
+        if (!$this->productOptions->contains($productOption)) {
+            $this->productOptions->add($productOption);
+            $productOption->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductOption(ProductOption $productOption): self
+    {
+        if ($this->productOptions->removeElement($productOption)) {
+            $productOption->removeProduct($this);
+        }
+
+        return $this;
+    }
+    /**
+ * Set the selected product option for this product
+ *
+ * @param ProductOption $productOptions
+ * @return self
+ */
+public function setProductOption(ProductOption $productOptions): self
+{
+    $this->productOptions = $productOptions;
+
+    return $this;
+}
+
+
+    public function __toString()
+    {
+        return $this->getName();
+    }
+    
+
+   
 }

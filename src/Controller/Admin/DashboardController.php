@@ -5,9 +5,11 @@ namespace App\Controller\Admin;
 use App\Entity\Carrier;
 use App\Entity\Category;
 use App\Entity\Client;
+use App\Entity\Header;
 use App\Entity\Order;
 use App\Entity\Prestation;
 use App\Entity\Product;
+use App\Entity\ProductOption;
 use App\Entity\Rdv;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -45,12 +47,15 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
+        yield MenuItem::linkToCrud('Carousel', 'fas fa-desktop', Header::class);
         yield MenuItem::linkToCrud('Utilisateur', 'fas fa-user', Client::class);
         yield MenuItem::linkToCrud('Order', 'fas fa-shopping-cart', Order::class);
         yield MenuItem::linkToCrud('Category', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Product', 'fas fa-tag', Product::class);
+        yield MenuItem::linkToCrud('Option produit', 'fas fa-calendar-check', ProductOption::class);
         yield MenuItem::linkToCrud('Carriers', 'fas fa-truck', Carrier::class);
         yield MenuItem::linkToCrud('Prestation', 'fas fa-scroll', Prestation::class);
         yield MenuItem::linkToCrud('Rdv', 'fas fa-calendar-check', Rdv::class);
+        
     }   
 }

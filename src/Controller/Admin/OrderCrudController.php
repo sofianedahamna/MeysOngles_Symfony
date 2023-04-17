@@ -10,11 +10,14 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class OrderCrudController extends AbstractCrudController
@@ -34,9 +37,13 @@ class OrderCrudController extends AbstractCrudController
     }
     public function configureActions(Actions $actions): Actions
     {
-        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours')->linkToCrudAction('updatePreparation');
-        $updateDelivery = Action::new('updateDelivery', 'Livraison en cours')->linkToCrudAction('updateDelivery');
+        $updatePreparation = Action::new('updatePreparation', 'Préparation en cours', 'fas fa-box-open')->linkToCrudAction('updatePreparation');
+        $updateDelivery = Action::new('updateDelivery', 'Livraison en cours','fas fa-truck')->linkToCrudAction('updateDelivery');
         return $actions
+     
+        ->remove(Crud::PAGE_DETAIL, Action::EDIT)
+        ->remove(Crud::PAGE_INDEX, Action::NEW)
+        ->remove(Crud::PAGE_INDEX, Action::EDIT)
         ->add('detail' , $updatePreparation)
         ->add('detail' , $updateDelivery)
         ->add('index' , 'detail');
@@ -48,7 +55,7 @@ class OrderCrudController extends AbstractCrudController
         $order->setState(2);
         $this->entityManager->flush();
 
-        $this->addFlash('notice',"<span style='color:green;'><strong>La commande".$order->getReference()."est bien <u> en cours de preparation</u></strong></span>");
+        $this->addFlash('notice',"<span style='color:green;'><strong>La commande".$order->getReference()." est bien <u> en cours de preparation</u></strong></span>");
 
         $url = $this->crudUrlGenerator
         ->setController(OrderCrudController::class)
@@ -64,13 +71,12 @@ class OrderCrudController extends AbstractCrudController
         $order->setState(3);
         $this->entityManager->flush();
 
-        $this->addFlash('notice',"<span style='color:orange;'><strong>La commande".$order->getReference()."est bien <u> en cours de Livraison</u></strong></span>");
+        $this->addFlash('notice',"<span style='color:orange;'><strong>La commande".$order->getReference()." est bien <u> en cours de Livraison</u></strong></span>");
 
         $url = $this->crudUrlGenerator
         ->setController(OrderCrudController::class)
         ->setAction('index') 
         ->generateUrl();
-
         return $this->redirect($url);
     }
 
@@ -83,18 +89,21 @@ class OrderCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             DateTimeField::new('createdAt', 'Passé le')->renderAsChoice(),
-            TextField::new('User', 'Utilisateur'),
+            AssociationField::new('User', 'Utilisateur'),
+            TextEditorField::new('delivery' , 'Adresse de livraison')->onlyOnDetail(),
             TextField::new('carrierName', 'Transporteur'),
             MoneyField::new('carrierPrice' , 'Frais de port')->setCurrency('EUR'),
             MoneyField::new('Total', 'Total Produit')->setCurrency('EUR'),
             ChoiceField::new('state')->setChoices([
-                'Non payer'=>0,
+                'Non payer'=> 0,
                 'Payer'=> 1,
                 'preparation en cours' => 2 ,
                 'Livraison en cours' => 3
             ]),
-            ArrayField::new('orderDetails', 'Produits acheté')->hideOnIndex()
+            ArrayField::new('orderDetails', 'Produits acheté')->hideOnIndex(),
+            ArrayField::new('productOptions')
         ];
+      
     }
     
 }

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter - Mey's Ongles{% endblock %}
+
+{% block content %}
+    <h2>Nous contacter</h2>
+    <p>N'hésitez pas à prendre contact avec notre équipe, nous vous répondrons dans les meilleurs délais.</p>
+    {% for message in app.flashes('notice') %}
+		<div class="alert alert-info">{{ message }}</div>
+	{% endfor %}
+    <div class="row">
+        <div class="col-md-8">
+            {{ form(form)}}
+        </div>
+        <div class="col-md-4">
+            <strong>Mey's Ongles</strong>
+            <hr>
+            Numero de contact*** <br>
+            31200 Toulouse <br>
+            contact.meys.ongles@gmail.com <br>
+           <a href="https://www.instagram.com/meys_ongles/"> Instagram : MeysOngles</a>
+        </div>
+    
+    </div>
+
+
+{% endblock %}

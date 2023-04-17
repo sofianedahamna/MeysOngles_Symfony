@@ -45,7 +45,7 @@ class RegisterController extends AbstractController
                 $content= "Bonjour ".$Client->getFirstName()."<br> Bienvenue chez Mey's Ongles nail shop nous sommes heureux de vous compter parmie nos client";
                 $mail->send($Client->getEmail(), $Client->getFirstName(), "Bienvenue sur la boutique Mey's Ongles",$content);
 
-                $notification="Votre inscription s'est correctement déroulée. Vous pouvez dés a present vous connectr à votre compte.";
+                $notification="Votre inscription s'est correctement déroulée. Vous pouvez dés a present vous connecté à votre compte.";
 
             } else {
                 $notification="L'email que vous avez renseigné existe deja.";

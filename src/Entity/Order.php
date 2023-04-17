@@ -15,7 +15,7 @@ class Order
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
@@ -50,15 +50,29 @@ class Order
     {
         $this->orderDetails = new ArrayCollection();
     }
+
+    /**
+
+     * @return float|int|mixed|null
+
+     */
     public function getTotal()
     {
-        $total=null;
-        foreach($this->getOrderDetails()->getValues() as $product){
+        $total = null;
+        foreach ($this->getOrderDetails()->getValues() as $product) {
+             //dd($this->getOrderDetails()->getValues());
+             //dd( $total);
+             //dd($product->getQuantity());
             $total = $total + ($product->getPrice() * $product->getQuantity());
+        
+            
         }
         return $total;
     }
 
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     public function getId(): ?int
     {
         return $this->id;
@@ -187,6 +201,16 @@ class Order
     {
         $this->state = $state;
 
+        return $this;
+    }
+
+    /**
+     * @param int|null $id 
+     * @return self
+     */
+    public function setId(?int $id): self
+    {
+        $this->id = $id;
         return $this;
     }
 }

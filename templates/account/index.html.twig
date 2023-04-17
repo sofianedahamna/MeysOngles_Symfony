@@ -3,13 +3,46 @@
 {% block title %}Mon compte - Mey's Ongles{% endblock %}
 
 {% block content %}
-<h1>Mon compte</h1>
-Bienvenue {{ app.user.firstname }} dans votre compte. <br>
-C'est dans cet espace que vous allez pouvoir gerer toutes vos informations personelles
-<hr>
-<a href="{{ path ('app_account_password') }}"> -Modifier mon mot de passe</a> <br>
-<a href="{{ path ('app_account_address') }}"> -Gérer mes adresses</a> <br>
-<a href="{{ path ('app_account_order')}}">-Mes commande</a> <br>
-<a href="{{ path ('app_rdv')}}">-Prendre un Rendez-vous avec ma prothesiste</a> <br>
-<a href="{{ path ('app_account_rdv')}}">-Consulter mes Rendez-vous</a> <br>
+	<h1>Mon compte</h1>
+	{% if is_granted('ROLE_ADMIN') %}
+		<small>
+			<a href="/admin">
+				-Vous étes un Administrateur, Voullez vous accéder au tableau de bord admin ?</a>
+			<br>
+    </small>
+	{% endif %}
+	Bienvenue
+	{{ app.user.firstname }}
+	dans votre compte.
+	<br>
+	C'est dans cet espace que vous allez pouvoir gerer toutes vos informations personelles
+	<hr>
+	<div class="row">
+		<div class="col-md-4">
+      <div class="account-item text-center">
+      	<a href="{{ path ('app_account_order')}}">-Mes commande</a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="account-item text-center">
+        <a href="{{ path ('app_account_password') }}">-Modifier mon mot de passe</a>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="account-item text-center">
+        	<a href="{{ path ('app_account_address') }}">-Gérer mes adresses</a>
+      </div>
+    </div>
+     <div class="col-md-4">
+      <div class="account-item text-center">
+        	<a href="{{ path ('app_rdv')}}">-Prendre un Rendez-vous avec ma prothesiste</a>
+      </div>
+    </div>
+     <div class="col-md-4">
+      <div class="account-item text-center">
+        	<a href="{{ path ('app_account_rdv')}}">-Consulter mes Rendez-vous</a>
+      </div>
+    </div>
+	</div>
 {% endblock %}
+

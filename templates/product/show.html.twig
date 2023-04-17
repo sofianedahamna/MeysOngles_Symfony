@@ -1,26 +1,49 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{product.name}} {% endblock %}
+{% block title %}
+	{{product.name}}
+{% endblock %}
 
 
 {% block content %}
 
-	
+
 	<div class="row product-contener">
 		<div class="col-md-5">
-        <img src="../assets/uploads/images/{{product.illustration}}" alt="{{product.name}}" class="img-fluid">
-        </div>
-        <div class="col-md-7 my-auto">
-            <h3>{{product.name}}</h3>
-            <p> {{product.subtitle}} </p>
-            <span class="product-page-price">{{(product.price / 100)|number_format(2,',','.')}}€</span>     
-            <hr>
-            <p>
-            {{product.description}}
-            </p>
-            <a href="{{ path ('add_to_cart', {'id': product.id}) }}" class="btn btn-primary">Ajouter au panier</a>
-        </div>
-	</div>
-    
-{% endblock %}
+			<img src="../assets/uploads/images/{{product.illustration}}" alt="{{product.name}}" class="img-fluid">
+		</div>
+		<div class="col-md-7 my-auto">
+			<h3>{{product.name}}</h3>
+			<p>
+				{{product.subtitle}}
+			</p>
+			<span class="product-page-price">{{(product.price / 100)|number_format(2,',','.')}}€</span>
+			<hr>
+			<p>
+				{{product.description}}
+			</p>
+			<div>
+			{{ form_start(form) }}
+	{% if product.productOptions | length > 0 %}
+		{{ form(form) }}
+		{% else %}
+		 {{ form_widget(form.submit, {'label': 'Ajouter au panier', 'attr': {'class': 'btn btn-success'}}) }}
+	{% endif %}
+	
+			</div>
+		</div>
+		<hr>
+		<!-- Three columns of text below the carousel -->
+		<h3>Nos meilleures vente</h3>
+		
+		<div class="row">
+			{% for product in products %}
+				<div class="col-md-3">
+					{% include 'product/single_product.html.twig'  %}
+				</div>
+			{% endfor %}
+		</div>
+		<!-- /.row -->
+
+	{% endblock %}
 
