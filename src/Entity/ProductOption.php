@@ -81,6 +81,7 @@ class ProductOption
 
         return $this;
     }
+
     public function __toString()
     {
         return $this->taille . ' ' . $this->forme;

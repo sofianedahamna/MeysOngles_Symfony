@@ -57,14 +57,16 @@ class ProductOptionRepository extends ServiceEntityRepository
      * @return ProductOption[] Returns an array of ProductOption objects
      */
     public function getProductOptionsByProductId($productId)
-    {
-        return $this->createQueryBuilder('po')
-            ->join('po.product', 'p')
-            ->where('p.id = :productId')
-            ->setParameter('productId', $productId)
-            ->getQuery()
-            ->getResult();
-    }
+{
+    return $this->createQueryBuilder('po')
+        ->join('po.product', 'p')
+        ->where('p.id = :productId')
+        ->setParameter('productId', $productId)
+        ->getQuery()
+        ->getResult();
+}
+
+    
 
 //    public function findOneBySomeField($value): ?ProductOption
 //    {

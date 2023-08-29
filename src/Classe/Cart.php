@@ -27,7 +27,7 @@ class Cart
             $cart[$id]['quantity'] += $quantity;
             if ($taille !== null && $forme !== null) {
                 $found = false;
-                foreach ($cart[$id]['productOption'] as &$option) {
+                foreach ($cart[$id]['productOption']->toArray() as &$option) {
                     if ($option['taille'] === $taille && $option['forme'] === $forme) {
                         $option['quantity'] += $quantity;
                         $found = true;
@@ -47,6 +47,8 @@ class Cart
     
         $this->session->set('cart', $cart);
     }
+    
+    
     
 
     public function addInCart($id, $taille = null, $forme = null, $quantity = 1)

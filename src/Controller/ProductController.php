@@ -51,46 +51,24 @@ class ProductController extends AbstractController
         $product = $this->entityManager->getRepository(Product::class)->findOneBySlug($slug);
         $products = $this->entityManager->getRepository(Product::class)->findByIsBest(1);
         $productId = $product->getId();
-        $productOptions = $this->entityManager->getRepository(ProductOption::class)->getProductOptionsByProductId($productId);
-    
+        
+        
         // Créer le formulaire HTML pour sélectionner l'option de produit
-        $form = $this->createForm(ProductOptionType::class, null, [
-            'productId' => $productId
-        ]);
-        // Récupérer la valeur de $productOption depuis la session
-        $selectedOption = $request->getSession()->get('productOptions');
-    
-        if ($request->isMethod('POST')) {
-            if (empty($productOptions)) {
-                // Si le produit n'a pas d'option, on redirige directement vers l'action add_to_cart
-                return $this->redirectToRoute('add_to_cart', ['id' => $productId]);
-            }
-            // Sinon, on vérifie si le formulaire est soumis et valide
+        $form = $this->createForm(ProductOptionType::class, null);
+            // on vérifie si le formulaire est soumis et valide
             $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form);
+             if ($form->isSubmitted() && $form->isValid()) {
                 $data = $form->getData();
-                $productOption = [
-                    'taille' => $data->getTaille(),
-                    'forme' => $data->getForme(),
-                    'productId' => $productId,
-                    'quantity' => 1
-                ];
-                $request->getSession()->set('productOptions', $productOption);
                 return $this->redirectToRoute('add_to_cart', ['id' => $productId]);
             }
-        }
+        
         
     
         return $this->render('product/show.html.twig', [
             'product' => $product,
             'products' => $products,
-            'productOptions' => $productOptions,
-            'selectedOption' => $selectedOption,
             'form' => $form->createView(),
         ]);
     }
-    
-    
-    
-
 }

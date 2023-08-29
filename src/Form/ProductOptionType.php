@@ -15,43 +15,8 @@ class ProductOptionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $productId = $options['productId'];
+       
         $builder
-            ->add('taille', ChoiceType::class, [
-                'choices' => [
-                    'court' =>  'court',
-                    'medium' => 'medium',
-                    'long' => 'long',
-                ],
-                'choice_attr' => [
-                    'court' => ['data' => 'court'],
-                    'medium' => ['data' => 'medium'],
-                    'long' => ['data' => 'long'],
-                ],
-                'attr' => [
-                    'class' => 'btn-block '
-                ]
-            ])
-            ->add('productId', HiddenType::class, [
-                'data' => $productId,
-                'mapped' => false,
-            ])
-            ->add('forme', ChoiceType::class, [
-                'choices' => [
-                    'Stilleto' => "Stilleto",
-                    'Coffin' => "Coffin",
-                    'carrer' => "Carrer",
-                ],
-                'choice_attr' => [
-                    'Stilleto' => ['data' => 'Stilleto'],
-                    'Coffin' => ['data' => 'Coffin'],
-                    'carrer' => ['data' => 'carrer'],
-                ],
-                'attr' => [
-                    'class' => 'btn-block '
-                ]
-    
-            ])
             ->add('quantity', HiddenType::class, [
                 'data' => 1,
                 'mapped' => false,
@@ -67,7 +32,7 @@ class ProductOptionType extends AbstractType
     
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setRequired('productId'); // Définit l'option "productId" comme obligatoire
+        
         $resolver->setDefaults([
             'data_class' => ProductOption::class,
         ]);
